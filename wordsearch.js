@@ -1,3 +1,5 @@
+//Jorge Medina, Fakeha Iftikhar, Sorren Jao 
+
 const transpose = function (matrix) {
     const results = [];
     for (let i = 0; i < matrix[0].length; i++) {
@@ -10,43 +12,52 @@ const transpose = function (matrix) {
     return results;
   };
 
-  const internalJoining = function(array) {
-    const horizontalJoin = array.map(ls => ls.join(''));
+  const internalJoining = function(array, back) {
+    let horizontalJoin = [];
+    if (back) {
+      horizontalJoin = array.map(ls => ls.reverse().join(''));
+    } else {
+      horizontalJoin = array.map(ls => ls.join(''));
+    }
     return horizontalJoin;
-  }
-
-  const internalSearch = function(arr, word) {
-    let joinedArr = internalJoining(arr);
+  };
+  
+  const internalSearch = function(arr, word, back) {
+    let joinedArr = [];
+    if (back) {
+      joinedArr = internalJoining(arr, true)
+    } else {
+      joinedArr = internalJoining(arr);
+    }
     for (l of joinedArr) {
         if (l.includes(word)) return true
     } 
-  }
-
+  };
   
+const wordSearch = (letters, word) => {
+  const transLetters = transpose(letters);
 
-const wordSearch = (letters, word) => { 
-    
-    if (internalSearch(letters, word)) {
-        return true;
-    }
-
-    const transLetters = transpose(letters);
-    if (internalSearch(transLetters, word)) {
-        return true;
-    }
-    // const transHorizontalJoin = transLetters.map((ls) => ls.join(""));
-    // for (l of transHorizontalJoin) {
-    //   if (l.includes(word)) return true;
-    // }
+  // FIRST CASE: searching horizontally =======> DONE!
+  if (internalSearch(letters, word)) {
+    return true;
+    /* SECOND CASE: searching vertically =======> DONE! */
+  } else if (internalSearch(transLetters, word)) {
+    return true;
+    /* THIRD CASE: searching vertically =======>  */
+  }  else if (internalSearch(letters, word, true)) {
+    return true;
+    /* FOURTh CASE: searching vertically =======>  */
+  }  else if (internalSearch(transLetters, word, true)) {
+    return true;
+  } else {
     return false;
-}
-
+  }
+};
 
 const backwards1 = function(array) {
     const hori = array.map(ls => ls.join(''));
     return horizontalJoin;
-  }
-
+  };
 
 module.exports = wordSearch
 
